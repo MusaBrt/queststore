@@ -1,2 +1,2 @@
 # queststore
-another random project
+oop of the universe
