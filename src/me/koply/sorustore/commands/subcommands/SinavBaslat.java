@@ -1,22 +1,21 @@
 package me.koply.sorustore.commands.subcommands;
 
-import me.koply.sorustore.objects.enums.ExamType;
 import me.koply.sorustore.objects.exams.ClassicExam;
 import me.koply.sorustore.objects.exams.Exam;
 import me.koply.sorustore.objects.exams.MultipleChoiceExam;
 import me.koply.sorustore.objects.exams.RandomExam;
-import me.halilibrahim.soruodev.objects.questions.*;
 import me.koply.sorustore.utilities.Util;
 import me.koply.sorustore.commands.ACommand;
 import me.koply.sorustore.commands.CommandParameters;
 import me.koply.sorustore.commands.annotations.CommandInfo;
 import me.koply.sorustore.objects.Data;
-import me.koply.sorustore.objects.enums.QuestionType;
 import me.koply.sorustore.objects.questions.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static me.koply.sorustore.objects.enums.ExamType.*;
 
 @CommandInfo("sinavbaslat")
 public class SinavBaslat extends ACommand {
@@ -37,11 +36,11 @@ public class SinavBaslat extends ACommand {
             try {
                 String examtype = "";
                 if (entry.getKey() == ClassicExam.class) {
-                    examtype = ExamType.CLASSIC.getValue();
+                    examtype = CLASSIC.getValue();
                 } else if (entry.getKey() == MultipleChoiceExam.class) {
-                    examtype = ExamType.TEST.getValue();
+                    examtype = TEST.getValue();
                 } else if (entry.getKey() == RandomExam.class) {
-                    examtype = ExamType.RANDOM.getValue();
+                    examtype = RANDOM.getValue();
                 } else {
                     out("Ciddi bir hata bulundu. İşlem yapılamadı.");
                     return;
@@ -84,13 +83,17 @@ public class SinavBaslat extends ACommand {
         int puan=0; // Toplam kazanılan puan
 
         switch (currentExam.getExamType()) {
-            case ExamType.TEST:
+            case TEST:
                 multipleChoiceExam((MultipleChoiceExam) currentExam, cmd, puan);
                 break;
-            case ExamType.CLASSIC:
+            case CLASSIC:
                 classicExam((ClassicExam) currentExam, cmd);
-            case ExamType.RANDOM:
+                break;
+            case RANDOM:
                 randomExam((RandomExam) currentExam, cmd, puan);
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + currentExam.getExamType());
         }
 
         // Sınav sonuçlarının ekrana bastırılması.
@@ -127,16 +130,16 @@ public class SinavBaslat extends ACommand {
         for (Question q : exam.getQuestions()) {
             out("---- " + soru + " numaralı soru ----");
             switch (q.getQuestionEnumType()) {
-                case QuestionType.CLASSIC:
+                case CLASSIC:
                     executeClassicQuestion((ClassicQuestion) q, cmd);
                     break;
-                case QuestionType.MULTIPLECHOICEQUESTION:
+                case MULTIPLECHOICEQUESTION:
                     executeMultipleChoiceQuestion((MultipleChoiceQuestion) q, cmd, puan);
                     break;
-                case QuestionType.GAPFILLING:
+                case GAPFILLING:
                     executeGapFillingQuestion((GapFillingQuestion)q, cmd);
                     break;
-                case QuestionType.TRUEFALSE:
+                case TRUEFALSE:
                     executeTrueFalseQuestion((TrueFalseQuestion)q, cmd);
                     break;
             }

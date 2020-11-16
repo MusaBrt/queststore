@@ -60,8 +60,8 @@ public class Listele extends ACommand {
         out("D - Boşluk Doldurmalı Sorular");
         out("E - Hepsi");
 
-        boolean loop = true;
-        while (loop) {
+        boolean loop;
+        do {
             String entry = cmd.getScanner().next();
 
             switch (entry.toLowerCase()) {
@@ -79,9 +79,10 @@ public class Listele extends ACommand {
                     break;
                 default:
                     out("Lütfen geçerli bir seçenek seçin.");
+                    loop = true;
 
             }
-        }
+        } while (loop);
     }
 
     private boolean foundMultipleChoiceQuestions(CommandParameters cmd) {

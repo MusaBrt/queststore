@@ -32,29 +32,29 @@ public class SinavOlustur extends ACommand {
         out("0 - Çoktan Seçmeli\n" +
                 "1 - Klasik\n" +
                 "2 - Karışık");
-        boolean running = true;
-        while (running) {
-            out("Oluşturulmasını istediğiniz sınav türünün numarasını girin. (Çıkmak için exit)");
+        boolean running = false;
+        do {
+            out("Oluşturulmasını istediğiniz sınav türünün numarasını girin. (Çıkmak için -1)");
             try {
                 int index = Integer.parseInt(cmd.getScanner().next());
                 switch (index) {
+                    case -1:
+                        break;
                     case 0:
                         typedExam(ExamType.TEST);
-                        running = false;
                         break;
                     case 1:
                         typedExam(ExamType.CLASSIC);
-                        running = false;
                         break;
                     case 2:
                         typedExam(ExamType.RANDOM);
-                        running = false;
                         break;
                     default:
+                        running = true;
                         out("Geçersiz girdi.");
                 }
             } catch (Exception ignored) {}
-        }
+        } while (running);
     }
 
     private void typedExam(ExamType type) {
@@ -145,8 +145,7 @@ public class SinavOlustur extends ACommand {
         else if (totalPoint >110) return false;
 
         // Denenebilecek olan sorular bu list içinde tutuluyor.
-        List<Question> tryableQuestions = new ArrayList<>();
-        tryableQuestions.addAll(allQuestions);
+        List<Question> tryableQuestions = new ArrayList<>(allQuestions);
         // Rastgele bir soru seçmek için random sınıfı oluşturuldu.
         Random rnd = new Random();
         

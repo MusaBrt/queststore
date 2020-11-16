@@ -4,10 +4,10 @@ import me.koply.sorustore.objects.questions.Question;
 
 import java.util.Comparator;
 
-public class DataComparator implements Comparator<Question> {
+ public final class DataComparator implements Comparator<Question> {
 
     @Override
-    public int compare(Question firstQuestion, Question secondQuestion) {
+    public final int compare(Question firstQuestion, Question secondQuestion) {
         return firstQuestion.compareTo(secondQuestion);
         //return secondQuestion.compareTo(firstQuestion);
     }

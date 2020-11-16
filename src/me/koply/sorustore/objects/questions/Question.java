@@ -45,7 +45,6 @@ public abstract class Question implements Comparable<Question> {
     public void setUserAnswer(String userAnswer) {
         this.userAnswer = userAnswer;
     }
-
     public String getUserAnswer() {
         return userAnswer;
     }

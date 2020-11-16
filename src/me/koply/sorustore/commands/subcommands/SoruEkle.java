@@ -151,8 +151,6 @@ public class SoruEkle extends ACommand {
         }
 
         trueFalseQuestion.lightPrintInformation();
-
-
     }
 
     private void addGapFillingQuestion(CommandParameters cmd) {
@@ -175,19 +173,18 @@ public class SoruEkle extends ACommand {
         while (true) {
             try {
                 String[] kelime = cmd.getScanner().nextLine().split(" ");
-                boolean tru = false;
+                boolean isdone = false;
                 int i = 0;
                 for (String s : soruArgs) {
                     if (s.equals(kelime[0])) {
                         out("Boşluk olacak olan kelime '" + kelime[0] + "' olarak ayarlandı");
                         gapFillingQuestion.setGapIndex(i);
-                        tru = true;
+                        isdone = true;
                     }
                     i++;
                 }
-                if (!tru) {
-                    out("Geçersiz bir kelime girdiniz. Lütfen doğru kelimeyi girin.");
-                } else break;
+                if (!isdone) out("Geçersiz bir kelime girdiniz. Lütfen doğru kelimeyi girin.");
+                else break;
 
             } catch (Throwable ignored) {}
         }

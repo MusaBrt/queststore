@@ -10,35 +10,36 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-public class DataManager {
-    public DataManager() {
+public final class DataManager {
+
+    private final File[] files = {new File("sorubankasi.dat"), new File("sinavlar.dat")};
+
+    private DataManager() {
         try {
             for (File file : files) {
                 if (!file.exists()) file.createNewFile();
             }
-        } catch (Exception ex) {
+        } catch (Throwable ex) {
             ex.printStackTrace();
         }
     }
 
+    // instance
     private static DataManager instance;
-
     public static DataManager getInstance() {
         if (instance == null) instance = new DataManager();
         return instance;
     }
 
-
-    public final File[] files = {new File("sorubankasi.dat"), new File("sinavlar.dat")};
-
-    public void loadAllDatas() {
+    public final void loadAllDatas() {
         getSinavlarFromFile();
         getSorularFromFile();
     }
 
-    public void saveAllDatas() {
+    public final void saveAllDatas() {
         setSinavlarToFile();
         setSorularToFile();
     }
@@ -50,28 +51,25 @@ public class DataManager {
             System.out.print("\nSınavlar data dosyası boş.");
             return;
         }
-        int i = 0;
         JSONArray jsonArray = new JSONArray(str);
         for (Object o : jsonArray) {
             JSONObject json = (JSONObject) o;
+            JSONArray examsJsonArray = new JSONArray(json.get("exams").toString());
             switch (json.get("examtype").toString()) {
                 case "Klasik":
-                    JSONArray examsArray = new JSONArray(json.get("exams").toString());
-                    for (Object examObject : examsArray) {
+                    for (Object examObject : examsJsonArray) {
                         JSONObject examJson = (JSONObject) examObject;
                         new ClassicExam(true).setSelf(examJson);
                     }
                     break;
                 case "Çoktan Seçmeli":
-                    JSONArray examsArray1 = new JSONArray(json.get("exams").toString());
-                    for (Object examObject : examsArray1) {
+                    for (Object examObject : examsJsonArray) {
                         JSONObject examJson = (JSONObject) examObject;
                         new MultipleChoiceExam(true).setSelf(examJson);
                     }
                     break;
                 case "Karışık":
-                    JSONArray examsArray2 = new JSONArray(json.get("exams").toString());
-                    for (Object examObject : examsArray2) {
+                    for (Object examObject : examsJsonArray) {
                         JSONObject examJson = (JSONObject) examObject;
                         new RandomExam(true).setSelf(examJson);
                     }
@@ -84,6 +82,7 @@ public class DataManager {
     }
 
     // Sınavları kendi data dosyasına kaydeder
+    // TODO: mantık sıkıntısı var gibi duruyor L94
     private void setSinavlarToFile() {
         JSONArray jsonArray = new JSONArray();
         Map<Class<? extends Exam>, List<Exam>> sinavlar = Data.getInstance().getExams();
@@ -101,7 +100,7 @@ public class DataManager {
         }
 
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream(files[1]), "utf-8"))) {
+                new FileOutputStream(files[1]), StandardCharsets.UTF_8))) {
                 writer.write(jsonArray.toString());
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -152,7 +151,7 @@ public class DataManager {
         }
 
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream(files[0]), "utf-8"))) {
+                new FileOutputStream(files[0]), StandardCharsets.UTF_8))) {
             writer.write(jsonArray.toString());
         } catch (Exception ex) {
             ex.printStackTrace();

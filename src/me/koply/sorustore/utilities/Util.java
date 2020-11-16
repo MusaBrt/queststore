@@ -1,6 +1,6 @@
 package me.koply.sorustore.utilities;
 
-public class Util {
+public final class Util {
 
     public static char[] selections = {'A', 'B', 'C', 'D', 'E'};
 

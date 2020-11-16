@@ -4,8 +4,8 @@ public abstract class ACommand {
 
     protected abstract void onCommand(CommandParameters cmd);
 
-    public void out(Object o) {
-        System.out.println(o + "");
+    public final void out(Object...os) {
+        for (Object o: os) { System.out.println(o+"");}
     }
 
 }

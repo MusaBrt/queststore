@@ -15,8 +15,8 @@ public enum ExamType {
         this.typeClass = typeClass;
     }
 
-    private String value;
-    private Class<? extends Exam> typeClass;
+    private final String value;
+    private final Class<? extends Exam> typeClass;
 
     public String getValue() {
         return value;

@@ -1,7 +1,6 @@
 package me.koply.sorustore.objects.exams;
 
 import me.koply.sorustore.objects.enums.ExamType;
-import me.halilibrahim.soruodev.objects.questions.*;
 import me.koply.sorustore.objects.questions.*;
 import org.json.JSONArray;
 import org.json.JSONObject;

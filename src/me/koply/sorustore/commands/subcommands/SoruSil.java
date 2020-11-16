@@ -59,8 +59,10 @@ public class SoruSil extends ACommand {
         int i = 0;
         for (Map.Entry<Class<? extends Question>, PriorityQueue<Question>> mapq : Data.getInstance().getTumSorular().entrySet()) {
             for (Question q : mapq.getValue()) {
-                questionMap.put(i, q);
-                i++;
+                if (q.getSoru().contains(keyword)) {
+                    questionMap.put(i, q);
+                    i++;
+                }
             }
         }
 

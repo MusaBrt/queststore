@@ -8,12 +8,12 @@ import java.util.*;
 public class CommandHandler {
 
     // Tüm proje boyunca kullanılacak olan "Scanner" kuruluyor.
-    private Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
 
     // Çalışacak olan komutların listesi burada tutuluyor.
     // Key değeri komutun kendisi olup value olarak komutun objesini tutuyor.
     // polymorphism
-    private Map<String, ACommand> commands = new HashMap<>();
+    private final Map<String, ACommand> commands = new HashMap<>();
 
     public CommandHandler() {
         // Komutlar kaydediliyor.
@@ -76,6 +76,7 @@ public class CommandHandler {
     // Komutlar reflection ile kaydediliyor. Böylece her komut için new Object() yapmaktan kurtuluyoruz.
     private void registerCommands() {
         // Commands package'ı içinde olan subcommands package'ını alıyoruz.
+        System.out.println(CommandHandler.class.getPackage().getName() + ".subcommands");
         Reflections reflections = new Reflections(CommandHandler.class.getPackage().getName() + ".subcommands");
 
         // Subcommands package'ı içinde ACommands'ı extends eden sınıfları alıyoruz
@@ -97,7 +98,7 @@ public class CommandHandler {
     }
 
     // Daha kolay yazım olması için System.out.print fonksiyonunu kısalttık.
-    public void out(Object o) {
+    public final void out(Object o) {
         System.out.print(o + "");
     }
 }

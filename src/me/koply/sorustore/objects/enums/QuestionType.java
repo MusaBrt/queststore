@@ -14,5 +14,5 @@ public enum QuestionType {
         return value;
     }
 
-    String value;
+    private final String value;
 }
