@@ -20,7 +20,13 @@ public final class DataManager {
     private DataManager() {
         try {
             for (File file : files) {
-                if (!file.exists()) file.createNewFile();
+                if (!file.exists()) {
+                    if (file.createNewFile()) {
+                        System.out.println(file.getName() + " dosyası oluşturuldu.");
+                    } else {
+                        System.out.println("WARN:" + file.getName() + " dosyası oluşturulamadı.");
+                    }
+                }
             }
         } catch (Throwable ex) {
             ex.printStackTrace();
@@ -174,6 +180,8 @@ public final class DataManager {
             }
             line = sb.toString();
             br.close();
+            isr.close();
+            fis.close();
             if (line.equals("")) {
                 return "nunull";
             } else {

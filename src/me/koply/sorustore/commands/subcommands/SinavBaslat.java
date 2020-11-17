@@ -34,7 +34,7 @@ public class SinavBaslat extends ACommand {
         int i = 0;
         for (Map.Entry<Class<? extends Exam>, List<Exam>> entry : exams.entrySet()) {
             try {
-                String examtype = "";
+                String examtype;
                 if (entry.getKey() == ClassicExam.class) {
                     examtype = CLASSIC.getValue();
                 } else if (entry.getKey() == MultipleChoiceExam.class) {
@@ -59,7 +59,7 @@ public class SinavBaslat extends ACommand {
         Exam currentExam;
         while (true) {
             out("Olmak istediğiniz sınavın başında yer alan numarayı girin.");
-            int examNumber = -1;
+            int examNumber;
             try {
                 examNumber = Integer.parseInt(cmd.getScanner().nextLine());
                 currentExam = sinavlar.get(examNumber);
@@ -109,6 +109,7 @@ public class SinavBaslat extends ACommand {
             answeredQuestions.add(q);
             soru++;
         }
+        out("DEBUG: Answered Questions Size: " + answeredQuestions.size());
         // TODO, Add to answered questions json to sinavlar.dat içindeki çözülenler kısmı
     }
 
@@ -121,12 +122,12 @@ public class SinavBaslat extends ACommand {
             answeredQuestions.add(q);
             soru++;
         }
+        out("DEBUG: Answered Questions Size: " + answeredQuestions.size());
         // TODO, Add to answered questions json to sinavlar.dat içindeki çözülenler kısmı
     }
 
     public void randomExam(RandomExam exam, CommandParameters cmd, int puan) {
         int soru = 0;
-        List<Question> answeredQuestion = new ArrayList<>();
         for (Question q : exam.getQuestions()) {
             out("---- " + soru + " numaralı soru ----");
             switch (q.getQuestionEnumType()) {
